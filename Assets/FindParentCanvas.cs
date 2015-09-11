@@ -2,29 +2,49 @@
 using System.Collections;
 using UnityEngine.UI;
 
+/*
+ * v0.1 2015/09/12
+ *   - getMyParentCanvasName() worked as expected 
+ */
+
 public class FindParentCanvas : MonoBehaviour {
 	
 	string getMyParentCanvasName(GameObject panel) {
-		// 1. one upper
-		GameObject parentGO = panel.transform.parent.gameObject;
-		if (parentGO.GetComponent<Canvas> () != null) {
-			return parentGO.name;
-		}
-			       
-		// 2. two uppers
-		GameObject grandParentGO = parentGO.transform.parent.gameObject;
-		if (grandParentGO.GetComponent<Canvas> () != null) {
-			return grandParentGO.name;
-		}
+		GameObject parentGO;
+		GameObject targetGO = panel;
 
-		return ""; // not found
+		for (int loop=0; loop<3; loop++) { // search upper three levels
+			parentGO = targetGO.transform.parent.gameObject;
+			if (parentGO.GetComponent<Canvas> () != null) {
+				return parentGO.name;
+			}
+			targetGO = parentGO;
+		}
+		return "";
 	}
 
-	void Start () {
+	void Test_each(string name) {
 		GameObject myPanel;
+		string canvasName;
+		
+		// case 1
+		myPanel = GameObject.Find (name);
+		canvasName = getMyParentCanvasName (myPanel);
+		Debug.Log (canvasName + " - " + myPanel.name);
+	}
 
-		myPanel = GameObject.Find ("Panel_1_1");
-		string canvasNams = getMyParentCanvasName (myPanel);
-		Debug.Log (canvasNams + " is parent canvas of " + myPanel.name);
+	void Test_main() {
+		Test_each ("Panel_1");
+		Test_each ("Panel_1_1");
+		Test_each ("Panel_1_2_1");
+
+		Test_each ("Panel_2");
+		Test_each ("Panel_2_1");
+		Test_each ("Panel_2_2_1");
+	}
+
+
+	void Start () {
+		Test_main ();
 	}	
 }
