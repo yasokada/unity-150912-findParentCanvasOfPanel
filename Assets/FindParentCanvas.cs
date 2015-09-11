@@ -24,12 +24,8 @@ public class FindParentCanvas : MonoBehaviour {
 	}
 
 	void Test_each(string name) {
-		GameObject myPanel;
-		string canvasName;
-		
-		// case 1
-		myPanel = GameObject.Find (name);
-		canvasName = getMyParentCanvasName (myPanel);
+		GameObject myPanel = GameObject.Find (name);
+		string canvasName = getMyParentCanvasName (myPanel);
 		Debug.Log (canvasName + " - " + myPanel.name);
 	}
 
