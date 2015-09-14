@@ -3,6 +3,8 @@ using System.Collections;
 using UnityEngine.UI;
 
 /*
+ * v0.3 2015/09/15
+ *   - add null case handling for GetComponentInParent()
  * v0.2 2015/09/15
  *   - brush up getMyParentCanvasName() by using GetComponentInParent()
  * v0.1 2015/09/12
@@ -12,7 +14,12 @@ using UnityEngine.UI;
 public class FindParentCanvas : MonoBehaviour {
 	
 	string getMyParentCanvasName(GameObject panel) {
-		return panel.GetComponentInParent<Canvas>().name;
+		Canvas canvasGO = panel.GetComponentInParent<Canvas> ();
+		if (canvasGO != null) {
+			return canvasGO.name;
+		} else {
+			return "";
+		}
 	}
 
 	void Test_each(string name) {
@@ -29,6 +36,8 @@ public class FindParentCanvas : MonoBehaviour {
 		Test_each ("Panel_2");
 		Test_each ("Panel_2_1");
 		Test_each ("Panel_2_2_1");
+
+		Test_each ("Panel_3"); // for null case
 	}
 
 
