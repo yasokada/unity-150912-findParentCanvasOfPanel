@@ -3,6 +3,8 @@ using System.Collections;
 using UnityEngine.UI;
 
 /*
+ * v0.2 2015/09/15
+ *   - brush up getMyParentCanvasName() by using GetComponentInParent()
  * v0.1 2015/09/12
  *   - getMyParentCanvasName() worked as expected 
  */
@@ -10,17 +12,7 @@ using UnityEngine.UI;
 public class FindParentCanvas : MonoBehaviour {
 	
 	string getMyParentCanvasName(GameObject panel) {
-		GameObject parentGO;
-		GameObject targetGO = panel;
-
-		for (int loop=0; loop<3; loop++) { // search upper three levels
-			parentGO = targetGO.transform.parent.gameObject;
-			if (parentGO.GetComponent<Canvas> () != null) {
-				return parentGO.name;
-			}
-			targetGO = parentGO;
-		}
-		return "";
+		return panel.GetComponentInParent<Canvas>().name;
 	}
 
 	void Test_each(string name) {
